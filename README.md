@@ -10,6 +10,20 @@ This repository only contains the add-on. See
 [godot-extended-libraries/godot-debug-menu-demo](https://github.com/godot-extended-libraries/godot-debug-menu-demo)
 for the demonstration project.
 
+## Features
+
+- Features compact and full display modes, with the compact mode only displaying
+  FPS, frametime and framerate cap.
+- Displays FPS, frametime, CPU time and GPU time graphs with a summary of the
+  best/worst/average frametimes over recently drawn frames.
+- Displays hardware information, including graphics driver version.
+- Displays software information, including project version (if specified in the
+  `application/config/version` custom project setting) and graphics settings.
+- Works with the Forward+, Mobile and Compatibility rendering methods.
+- Works with 2D and 3D projects.
+- Works when running the project from the editor, but also in exported projects
+  (debug and release).
+
 ## Why use this debug menu?
 
 - Compared to the Godot editor's Profiler, Monitors and Visual Profiler bottom
