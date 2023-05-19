@@ -56,7 +56,7 @@ graphics settings.
 
 - Open the Godot editor.
 - Navigate to the **AssetLib** tab at the top of the editor and search for
-  "antialiased line2d".
+  "debug menu".
 - Install the
   [*Debug Menu*](https://godotengine.org/asset-library/asset/1902)
   plugin. Keep all files checked during installation.
@@ -80,7 +80,7 @@ if you do not have Git installed.
 
 - Move the `addons/` folder to your project folder.
 - In the editor, open **Project > Project Settings**, go to **Plugins**
-  and enable the **Antialiased Line2D** plugin.
+  and enable the **Debug Menu** plugin.
 
 ## Usage
 
