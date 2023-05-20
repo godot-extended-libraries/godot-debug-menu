@@ -50,6 +50,50 @@ provide some insight on how well a project actually runs. However, they lack
 information on engine-specific things such as per-frame CPU/GPU time and
 graphics settings.
 
+## How to read values in the debug menu
+
+To determine whether values for **Total**, **CPU** and **GPU** displayed in the
+debug menu are good or bad, you need to set yourself a target frametime first.
+Unlike FPS (frames per second), lower frametimes are *better*.
+
+The frametime is determined by the formula `1000.0 / FPS` where `FPS` is your
+target FPS. For example, if you aim to have at least 60 FPS at all times on your
+current hardware, you should ensure that **Total** never exceeds 16.66 mspf
+(milliseconds per frame). At 30 FPS, this target frametime is 33.33 mspf, and at
+120 FPS, it's 8.33 mspf.
+
+When looking at `Avg` (average) metrics, it's recommended to keep *at least* 25%
+of headroom to ensure that more demanding situations in the game can match the
+target frametime. This also allows the hardware to cool better and have better
+battery life if using a framerate cap. This means that if you target 60 FPS,
+your average FPS should be at least 75, which is a frametime of 13.33 mspf or
+lower.
+
+If the FPS dips below the target due to the frame time being too high, this
+could be due to a bottleneck in one of 3 areas:
+
+- **GPU rendering:** This is denoted by the GPU time going close to the target
+  frametime (not necessarily above, as the total frametime is also determined by
+  the CPU time and scripting). This is usually caused by stressing the GPU too
+  much with advanced shaders, high polygon counts or antialiasing, or having a
+  weak GPU compared to the CPU.
+- **CPU rendering:** This is denoted by the CPU time going close to the target
+  (not necessarily above, as the total frametime is also determined by the GPU
+  time and scripting). This is usually caused by having too many draw calls in
+  the scene, or having a weak CPU compared to the GPU.
+- **CPU other:** This is **not** denoted by the CPU or GPU time metrics, but by
+  the Total time metric (which is just a different way to display FPS). This is
+  usually caused by scripting, physics simulation or navigation computations
+  taking too much time in a given frame.
+
+The metrics marked as `Worst` are also important, as these denote the time taken
+to render the slowest frame in the currently displayed graph (the graph shows
+the last 150 rendered frames). You want to make sure this metric stays below
+your target frametime as much as possible.
+
+You can find detailed guidance on optimizing a project's performance in the
+[documentation](https://docs.godotengine.org/en/stable/tutorials/performance/index.html).
+
 ## Installation
 
 ### Using the Asset Library
