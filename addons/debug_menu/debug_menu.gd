@@ -61,6 +61,8 @@ var style := Style.HIDDEN:
 # Value of `Time.get_ticks_usec()` on the previous frame.
 var last_tick := 0
 
+var thread := Thread.new()
+
 ## Returns the sum of all values of an array (use as a parameter to `Array.reduce()`).
 var sum_func := func avg(accum: float, number: float) -> float: return accum + number
 
@@ -104,16 +106,27 @@ func _ready() -> void:
 
 	get_viewport().size_changed.connect(update_settings_label)
 
-	# Enable required time measurements to display CPU/GPU frame time information.
-	RenderingServer.viewport_set_measure_render_time(get_viewport().get_viewport_rid(), true)
-	update_information_label()
-	update_settings_label()
-
+	# Display loading text while information is being queried,
+	# in case the user toggles the full debug menu just after starting the project.
+	information.text = "Loading hardware information...\n\n "
+	settings.text = "Loading project information..."
+	thread.start(
+		func():
+			# Enable required time measurements to display CPU/GPU frame time information.
+			# These lines are time-consuming operations, so run them in a separate thread.
+			RenderingServer.viewport_set_measure_render_time(get_viewport().get_viewport_rid(), true)
+			update_information_label()
+			update_settings_label()
+	)
 
 func _input(event: InputEvent) -> void:
 	#if event.is_action_pressed(&"cycle_debug_menu"):
 	if Input.is_key_pressed(KEY_F3):
 		style = wrapi(style + 1, 0, Style.MAX) as Style
+
+
+func _exit_tree() -> void:
+	thread.wait_to_finish()
 
 
 ## Update hardware information label (this can change at runtime based on window size and graphics settings).
