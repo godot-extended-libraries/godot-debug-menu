@@ -105,10 +105,13 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(update_settings_label)
 
 	# Enable required time measurements to display CPU/GPU frame time information.
-	RenderingServer.viewport_set_measure_render_time(get_viewport().get_viewport_rid(), true)
-	update_information_label()
-	update_settings_label()
-
+	Thread.new().start(
+		func():
+			# Time consuming operations, so run in a separate thread.
+			RenderingServer.viewport_set_measure_render_time(get_viewport().get_viewport_rid(), true)
+			update_information_label()
+			update_settings_label()
+	)
 
 func _input(event: InputEvent) -> void:
 	#if event.is_action_pressed(&"cycle_debug_menu"):
