@@ -134,9 +134,6 @@ if you do not have Git installed.
 
 The key to cycle the debug menu is set to F3 by default. This can be changed by setting the cycle_debug_menu InputAction to a different input.
 
-## Changing Quality Settings at Runtime
-In order for the displayed quality setting to match the in-game quality setting, you should update the quality variables in debug.gd to match what you set them to at runtime. These variables are: ssao_quality, ssil_quality, volumetric_fog_size, volumetric_fog_depth, and is_volumetric_fog_filtered. Note: If quality settings aren't adjusted at run-time this is unneccesary as the plugin reads the the ProjectSettings for these values. 
-
 ## License
 
 Copyright © 2023-present Hugo Locurcio and contributors
