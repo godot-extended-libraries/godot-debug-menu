@@ -183,18 +183,18 @@ func update_settings_label() -> void:
 			settings.text += "\nSSR: %d Steps" % environment.ssr_max_steps
 
 		if environment.ssao_enabled:
-			settings.text += "\nSSAO: on"
+			settings.text += "\nSSAO: On"
 		if environment.ssil_enabled:
-			settings.text += "\nSSIL: on"
+			settings.text += "\nSSIL: On"
 
 		if environment.sdfgi_enabled:
 			settings.text += "\nSDFGI: %d Cascades" % environment.sdfgi_cascades
 
 		if environment.glow_enabled:
-			settings.text += "\nGlow: on"
+			settings.text += "\nGlow: On"
 
 		if environment.volumetric_fog_enabled:
-			settings.text += "\nVolumetric Fog: on"
+			settings.text += "\nVolumetric Fog: On"
 	var antialiasing_2d_string := ""
 	if viewport.msaa_2d >= Viewport.MSAA_2X:
 		antialiasing_2d_string = "%d× MSAA" % pow(2, viewport.msaa_2d)
