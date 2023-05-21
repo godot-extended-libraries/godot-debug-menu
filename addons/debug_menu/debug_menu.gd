@@ -76,12 +76,22 @@ var frametime_avg := GRAPH_MIN_FRAMETIME
 var frametime_cpu_avg := GRAPH_MAX_FRAMETIME
 var frametime_gpu_avg := GRAPH_MIN_FRAMETIME
 var frames_per_second := float(GRAPH_MIN_FPS)
-
+var ssao_quality = ProjectSettings.get_setting("rendering/environment/ssao/quality") #For now we need to update this manually but hopefully in the future the getter for this function will be exposed#
+var ssil_quality = ProjectSettings.get_setting("rendering/environment/ssao/quality") #For now we need to update this manually but hopefully in the future the getter for this function will be exposed#
+var volumetric_fog_size = ProjectSettings.get_setting("rendering/environment/volumetric_fog/volume_size") #For now we need to update this manually but hopefully in the future the getter for this function will be exposed#
+var volumetric_fog_depth = ProjectSettings.get_setting("rendering/environment/volumetric_fog/volume_depth") #For now we need to update this manually but hopefully in the future the getter for this function will be exposed#
+var is_volumetric_fog_filtered = ProjectSettings.get_setting("rendering/environment/volumetric_fog/use_filter") #For now we need to update this manually but hopefully in the future the getter for this function will be exposed#
 var frame_time_gradient := Gradient.new()
 
 func _init() -> void:
 	# This must be done here instead of `_ready()` to avoid having `visibility_changed` be emitted immediately.
+	
 	visible = false
+	if not InputMap.has_action("cycle_debug_menu"):
+		InputMap.add_action("cycle_debug_menu")
+		var event := InputEventKey.new()
+		event.keycode = KEY_F3
+		InputMap.action_add_event("cycle_debug_menu", event)
 
 
 func _ready() -> void:
@@ -121,7 +131,7 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	#if event.is_action_pressed(&"cycle_debug_menu"):
-	if Input.is_key_pressed(KEY_F3):
+	if Input.is_action_just_pressed("cycle_debug_menu"):
 		style = wrapi(style + 1, 0, Style.MAX) as Style
 
 
@@ -129,7 +139,7 @@ func _exit_tree() -> void:
 	thread.wait_to_finish()
 
 
-## Update hardware information label (this can change at runtime based on window size and graphics settings).
+## Update hardware information label (this can change at runtime based on window size and graphics settings). By default this is only called when the window is resized, to update when settings are changed the function must be called manually.
 func update_settings_label() -> void:
 	settings.text = ""
 	if ProjectSettings.has_setting("application/config/version"):
@@ -167,8 +177,8 @@ func update_settings_label() -> void:
 		settings.text += "3D scale (%s): %d%% = %d×%d" % [
 				"Bilinear" if viewport.scaling_3d_mode == Viewport.SCALING_3D_MODE_BILINEAR else "FSR 1.0",
 				viewport.scaling_3d_scale * 100,
-				viewport.get_visible_rect().size.x * viewport.scaling_3d_scale,
-				viewport.get_visible_rect().size.y * viewport.scaling_3d_scale,
+				viewport.size.x * viewport.scaling_3d_scale,
+				viewport.size.y * viewport.scaling_3d_scale,
 		]
 
 		if not antialiasing_3d_string.is_empty():
@@ -178,19 +188,39 @@ func update_settings_label() -> void:
 			settings.text += "\nSSR: %d Steps" % environment.ssr_max_steps
 
 		if environment.ssao_enabled:
-			settings.text += "\nSSAO: On"
+			var quality = "Very Low"
+			if ssao_quality == RenderingServer.ENV_SSAO_QUALITY_LOW:
+				quality = "Low"
+			elif ssao_quality == RenderingServer.ENV_SSAO_QUALITY_MEDIUM:
+				quality = "Medium"
+			elif ssao_quality == RenderingServer.ENV_SSAO_QUALITY_HIGH:
+				quality = "High"
+			settings.text += "\nSSAO: " + quality
 
 		if environment.ssil_enabled:
-			settings.text += "\nSSIL: On"
+			var quality = "Very Low"
+			if ssil_quality == RenderingServer.ENV_SSIL_QUALITY_LOW:
+				quality = "Low"
+			elif ssil_quality == RenderingServer.ENV_SSIL_QUALITY_MEDIUM:
+				quality = "Medium"
+			elif ssil_quality == RenderingServer.ENV_SSIL_QUALITY_HIGH:
+				quality = "High"
+			settings.text += "\nSSIL: " + quality
 
 		if environment.sdfgi_enabled:
 			settings.text += "\nSDFGI: %d Cascades" % environment.sdfgi_cascades
 
 		if environment.glow_enabled:
-			settings.text += "\nGlow: On"
+			var quality = "Linear"
+			if ProjectSettings.get_setting("rendering/environment/glow/upscale_mode") == 1:
+				quality = "Bicubic"
+			settings.text += "\nGlow: " + quality
 
 		if environment.volumetric_fog_enabled:
-			settings.text += "\nVolumetric Fog: On"
+			if is_volumetric_fog_filtered:
+				settings.text += "\nVolumetric Fog: Filtered, " + "Size = " + str(volumetric_fog_size) + ", Depth = " + str(volumetric_fog_depth)
+			else:
+				settings.text += "\nVolumetric Fog: Unfiltered, " + "Size = " + str(volumetric_fog_size) + ", Depth = " + str(volumetric_fog_depth)
 
 	var antialiasing_2d_string := ""
 	if viewport.msaa_2d >= Viewport.MSAA_2X:
