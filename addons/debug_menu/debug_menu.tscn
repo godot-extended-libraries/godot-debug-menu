@@ -18,6 +18,7 @@ offset_bottom = 408.0
 grow_horizontal = 0
 size_flags_horizontal = 8
 size_flags_vertical = 4
+mouse_filter = 2
 script = ExtResource("1_p440y")
 fps = NodePath("VBoxContainer/FPS")
 frame_time = NodePath("VBoxContainer/FrameTime")
@@ -49,6 +50,7 @@ anchor_right = 1.0
 offset_left = -300.0
 offset_bottom = 374.0
 grow_horizontal = 0
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="FPS" type="Label" parent="VBoxContainer"]
@@ -81,6 +83,7 @@ horizontal_alignment = 2
 [node name="FrameTimeHistory" type="GridContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
+mouse_filter = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 5
@@ -88,6 +91,7 @@ columns = 5
 [node name="Spacer" type="Control" parent="VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="AvgHeader" type="Label" parent="VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
@@ -274,6 +278,7 @@ horizontal_alignment = 2
 
 [node name="FPSGraph" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 alignment = 2
 
 [node name="Title" type="Label" parent="VBoxContainer/FPSGraph"]
@@ -290,10 +295,12 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ki0n8")
 
 [node name="TotalGraph" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 alignment = 2
 
 [node name="Title" type="Label" parent="VBoxContainer/TotalGraph"]
@@ -310,10 +317,12 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ki0n8")
 
 [node name="CPUGraph" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 alignment = 2
 
 [node name="Title" type="Label" parent="VBoxContainer/CPUGraph"]
@@ -330,10 +339,12 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ki0n8")
 
 [node name="GPUGraph" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 alignment = 2
 
 [node name="Title" type="Label" parent="VBoxContainer/GPUGraph"]
@@ -350,6 +361,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ki0n8")
 
 [node name="Information" type="Label" parent="VBoxContainer"]

@@ -128,12 +128,20 @@ if you do not have Git installed.
 
 ## Usage
 
-- Press <kbd>F3</kbd> while the project is running. This cycles between no debug
-  menu, a compact debug menu (only FPS and frametime visible) and a full debug
-  menu.
+Press <kbd>F3</kbd> while the project is running. This cycles between no debug
+menu, a compact debug menu (only FPS and frametime visible) and a full debug
+menu.
 
-The key to cycle the debug menu is currently hardcoded. You can change it in
-`addons/debug_menu/debug_menu.gd`'s `_input()` method.
+The key to cycle the debug menu is set to <kbd>F3</kbd> by default. This can be
+changed by setting the `cycle_debug_menu` action in the Input Map to a different
+key. This action is not created by the plugin in the editor, so you will have to
+create it in the Project Settings if you wish to override the key.
+
+To toggle the debug menu from code, use:
+
+- `DebugMenu.style = DebugMenu.Style.NONE` to hide the debug menu.
+- `DebugMenu.style = DebugMenu.Style.VISIBLE_COMPACT` to show the compact debug menu.
+- `DebugMenu.style = DebugMenu.Style.VISIBLE_DETAILED` to show the detailed debug menu.
 
 ## License
 

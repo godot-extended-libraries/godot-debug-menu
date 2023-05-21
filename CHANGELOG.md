@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- The keyboard shortcut used to toggle the debug menu can now be overridden by
+  adding a `cycle_debug_menu` input action to the input map.
+
+### Fixed
+
+- The debug menu no longer blocks mouse input when visible.
+
 ## [1.0.1] - 2023-05-20
 
 ### Fixed

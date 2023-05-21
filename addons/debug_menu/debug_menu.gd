@@ -76,12 +76,19 @@ var frametime_avg := GRAPH_MIN_FRAMETIME
 var frametime_cpu_avg := GRAPH_MAX_FRAMETIME
 var frametime_gpu_avg := GRAPH_MIN_FRAMETIME
 var frames_per_second := float(GRAPH_MIN_FPS)
-
 var frame_time_gradient := Gradient.new()
 
 func _init() -> void:
 	# This must be done here instead of `_ready()` to avoid having `visibility_changed` be emitted immediately.
 	visible = false
+
+	if not InputMap.has_action("cycle_debug_menu"):
+		# Create default input action if no user-defined override exists.
+		# We can't do it in the editor plugin's activation code as it doesn't seem to work there.
+		InputMap.add_action("cycle_debug_menu")
+		var event := InputEventKey.new()
+		event.keycode = KEY_F3
+		InputMap.action_add_event("cycle_debug_menu", event)
 
 
 func _ready() -> void:
@@ -120,8 +127,7 @@ func _ready() -> void:
 	)
 
 func _input(event: InputEvent) -> void:
-	#if event.is_action_pressed(&"cycle_debug_menu"):
-	if Input.is_key_pressed(KEY_F3):
+	if event.is_action_pressed("cycle_debug_menu"):
 		style = wrapi(style + 1, 0, Style.MAX) as Style
 
 
@@ -129,7 +135,10 @@ func _exit_tree() -> void:
 	thread.wait_to_finish()
 
 
-## Update hardware information label (this can change at runtime based on window size and graphics settings).
+## Update hardware information label (this can change at runtime based on window
+## size and graphics settings). This is only called when the window is resized.
+## To update when graphics settings are changed, the function must be called manually
+## using `DebugMenu.update_settings_label()`.
 func update_settings_label() -> void:
 	settings.text = ""
 	if ProjectSettings.has_setting("application/config/version"):
@@ -179,7 +188,6 @@ func update_settings_label() -> void:
 
 		if environment.ssao_enabled:
 			settings.text += "\nSSAO: On"
-
 		if environment.ssil_enabled:
 			settings.text += "\nSSIL: On"
 
@@ -191,7 +199,6 @@ func update_settings_label() -> void:
 
 		if environment.volumetric_fog_enabled:
 			settings.text += "\nVolumetric Fog: On"
-
 	var antialiasing_2d_string := ""
 	if viewport.msaa_2d >= Viewport.MSAA_2X:
 		antialiasing_2d_string = "%d× MSAA" % pow(2, viewport.msaa_2d)
