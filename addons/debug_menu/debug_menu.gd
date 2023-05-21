@@ -191,10 +191,7 @@ func update_settings_label() -> void:
 			settings.text += "\nSDFGI: %d Cascades" % environment.sdfgi_cascades
 
 		if environment.glow_enabled:
-			var quality = "Linear"
-			if ProjectSettings.get_setting("rendering/environment/glow/upscale_mode") == 1:
-				quality = "Bicubic"
-			settings.text += "\nGlow: " + quality
+			settings.text += "\nGlow: on"
 
 		if environment.volumetric_fog_enabled:
 			settings.text += "\nVolumetric Fog: on"
