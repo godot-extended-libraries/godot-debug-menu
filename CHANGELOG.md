@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- The 3D rendering resolution is now correctly calculated when using the
+  `canvas_items` stretch mode.
 - The debug menu no longer blocks mouse input when visible.
 
 ## [1.0.1] - 2023-05-20
