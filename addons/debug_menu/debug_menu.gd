@@ -81,6 +81,7 @@ var frame_time_gradient := Gradient.new()
 func _init() -> void:
 	# This must be done here instead of `_ready()` to avoid having `visibility_changed` be emitted immediately.
 	visible = false
+	z_index = 4096 # Make sure the debug menu is above the current scene
 
 	if not InputMap.has_action("cycle_debug_menu"):
 		# Create default input action if no user-defined override exists.
