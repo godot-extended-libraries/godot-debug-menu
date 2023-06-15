@@ -5,7 +5,10 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ki0n8"]
 bg_color = Color(0, 0, 0, 0.25098)
 
-[node name="DebugMenu" type="Control" node_paths=PackedStringArray("fps", "frame_time", "frame_number", "frame_history_total_avg", "frame_history_total_min", "frame_history_total_max", "frame_history_total_last", "frame_history_cpu_avg", "frame_history_cpu_min", "frame_history_cpu_max", "frame_history_cpu_last", "frame_history_gpu_avg", "frame_history_gpu_min", "frame_history_gpu_max", "frame_history_gpu_last", "fps_graph", "total_graph", "cpu_graph", "gpu_graph", "information", "settings")]
+[node name="CanvasLayer" type="CanvasLayer"]
+layer = 128
+
+[node name="DebugMenu" type="Control" parent="." node_paths=PackedStringArray("fps", "frame_time", "frame_number", "frame_history_total_avg", "frame_history_total_min", "frame_history_total_max", "frame_history_total_last", "frame_history_cpu_avg", "frame_history_cpu_min", "frame_history_cpu_max", "frame_history_cpu_last", "frame_history_gpu_avg", "frame_history_gpu_min", "frame_history_gpu_max", "frame_history_gpu_last", "fps_graph", "total_graph", "cpu_graph", "gpu_graph", "information", "settings")]
 custom_minimum_size = Vector2(400, 400)
 layout_mode = 3
 anchors_preset = 1
@@ -42,7 +45,7 @@ gpu_graph = NodePath("VBoxContainer/GPUGraph/Graph")
 information = NodePath("VBoxContainer/Information")
 settings = NodePath("VBoxContainer/Settings")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="DebugMenu"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -53,7 +56,7 @@ grow_horizontal = 0
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="FPS" type="Label" parent="VBoxContainer"]
+[node name="FPS" type="Label" parent="DebugMenu/VBoxContainer"]
 modulate = Color(0, 1, 0, 1)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -63,7 +66,7 @@ theme_override_font_sizes/font_size = 18
 text = "60 FPS"
 horizontal_alignment = 2
 
-[node name="FrameTime" type="Label" parent="VBoxContainer"]
+[node name="FrameTime" type="Label" parent="DebugMenu/VBoxContainer"]
 modulate = Color(0, 1, 0, 1)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -72,7 +75,7 @@ theme_override_font_sizes/font_size = 12
 text = "16.67 mspf (cap: 123 FPS + Adaptive V-Sync)"
 horizontal_alignment = 2
 
-[node name="FrameNumber" type="Label" parent="VBoxContainer"]
+[node name="FrameNumber" type="Label" parent="DebugMenu/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
@@ -80,7 +83,7 @@ theme_override_font_sizes/font_size = 12
 text = "Frame: 1234"
 horizontal_alignment = 2
 
-[node name="FrameTimeHistory" type="GridContainer" parent="VBoxContainer"]
+[node name="FrameTimeHistory" type="GridContainer" parent="DebugMenu/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 mouse_filter = 2
@@ -88,12 +91,12 @@ theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 5
 
-[node name="Spacer" type="Control" parent="VBoxContainer/FrameTimeHistory"]
+[node name="Spacer" type="Control" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="AvgHeader" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="AvgHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -102,7 +105,7 @@ theme_override_font_sizes/font_size = 12
 text = "Average"
 horizontal_alignment = 2
 
-[node name="MinHeader" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="MinHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -111,7 +114,7 @@ theme_override_font_sizes/font_size = 12
 text = "Best"
 horizontal_alignment = 2
 
-[node name="MaxHeader" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="MaxHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -120,7 +123,7 @@ theme_override_font_sizes/font_size = 12
 text = "Worst"
 horizontal_alignment = 2
 
-[node name="LastHeader" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="LastHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -129,7 +132,7 @@ theme_override_font_sizes/font_size = 12
 text = "Last"
 horizontal_alignment = 2
 
-[node name="TotalHeader" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="TotalHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -138,7 +141,7 @@ theme_override_font_sizes/font_size = 12
 text = "Total:"
 horizontal_alignment = 2
 
-[node name="TotalAvg" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="TotalAvg" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -148,7 +151,7 @@ theme_override_font_sizes/font_size = 12
 text = "123.45"
 horizontal_alignment = 2
 
-[node name="TotalMin" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="TotalMin" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -158,7 +161,7 @@ theme_override_font_sizes/font_size = 12
 text = "123.45"
 horizontal_alignment = 2
 
-[node name="TotalMax" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="TotalMax" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -168,7 +171,7 @@ theme_override_font_sizes/font_size = 12
 text = "123.45"
 horizontal_alignment = 2
 
-[node name="TotalLast" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="TotalLast" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -178,7 +181,7 @@ theme_override_font_sizes/font_size = 12
 text = "123.45"
 horizontal_alignment = 2
 
-[node name="CPUHeader" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="CPUHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -187,7 +190,7 @@ theme_override_font_sizes/font_size = 12
 text = "CPU:"
 horizontal_alignment = 2
 
-[node name="CPUAvg" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="CPUAvg" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -197,7 +200,7 @@ theme_override_font_sizes/font_size = 12
 text = "123.45"
 horizontal_alignment = 2
 
-[node name="CPUMin" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="CPUMin" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -207,7 +210,7 @@ theme_override_font_sizes/font_size = 12
 text = "12.34"
 horizontal_alignment = 2
 
-[node name="CPUMax" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="CPUMax" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -217,7 +220,7 @@ theme_override_font_sizes/font_size = 12
 text = "123.45"
 horizontal_alignment = 2
 
-[node name="CPULast" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="CPULast" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -227,7 +230,7 @@ theme_override_font_sizes/font_size = 12
 text = "123.45"
 horizontal_alignment = 2
 
-[node name="GPUHeader" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="GPUHeader" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -236,7 +239,7 @@ theme_override_font_sizes/font_size = 12
 text = "GPU:"
 horizontal_alignment = 2
 
-[node name="GPUAvg" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="GPUAvg" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -246,7 +249,7 @@ theme_override_font_sizes/font_size = 12
 text = "123.45"
 horizontal_alignment = 2
 
-[node name="GPUMin" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="GPUMin" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -256,7 +259,7 @@ theme_override_font_sizes/font_size = 12
 text = "1.23"
 horizontal_alignment = 2
 
-[node name="GPUMax" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="GPUMax" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -266,7 +269,7 @@ theme_override_font_sizes/font_size = 12
 text = "123.45"
 horizontal_alignment = 2
 
-[node name="GPULast" type="Label" parent="VBoxContainer/FrameTimeHistory"]
+[node name="GPULast" type="Label" parent="DebugMenu/VBoxContainer/FrameTimeHistory"]
 modulate = Color(0, 1, 0, 1)
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
@@ -276,12 +279,12 @@ theme_override_font_sizes/font_size = 12
 text = "123.45"
 horizontal_alignment = 2
 
-[node name="FPSGraph" type="HBoxContainer" parent="VBoxContainer"]
+[node name="FPSGraph" type="HBoxContainer" parent="DebugMenu/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 alignment = 2
 
-[node name="Title" type="Label" parent="VBoxContainer/FPSGraph"]
+[node name="Title" type="Label" parent="DebugMenu/VBoxContainer/FPSGraph"]
 custom_minimum_size = Vector2(0, 27)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -291,19 +294,19 @@ theme_override_font_sizes/font_size = 12
 text = "FPS: ↑"
 vertical_alignment = 1
 
-[node name="Graph" type="Panel" parent="VBoxContainer/FPSGraph"]
+[node name="Graph" type="Panel" parent="DebugMenu/VBoxContainer/FPSGraph"]
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ki0n8")
 
-[node name="TotalGraph" type="HBoxContainer" parent="VBoxContainer"]
+[node name="TotalGraph" type="HBoxContainer" parent="DebugMenu/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 alignment = 2
 
-[node name="Title" type="Label" parent="VBoxContainer/TotalGraph"]
+[node name="Title" type="Label" parent="DebugMenu/VBoxContainer/TotalGraph"]
 custom_minimum_size = Vector2(0, 27)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -313,19 +316,19 @@ theme_override_font_sizes/font_size = 12
 text = "Total: ↓"
 vertical_alignment = 1
 
-[node name="Graph" type="Panel" parent="VBoxContainer/TotalGraph"]
+[node name="Graph" type="Panel" parent="DebugMenu/VBoxContainer/TotalGraph"]
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ki0n8")
 
-[node name="CPUGraph" type="HBoxContainer" parent="VBoxContainer"]
+[node name="CPUGraph" type="HBoxContainer" parent="DebugMenu/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 alignment = 2
 
-[node name="Title" type="Label" parent="VBoxContainer/CPUGraph"]
+[node name="Title" type="Label" parent="DebugMenu/VBoxContainer/CPUGraph"]
 custom_minimum_size = Vector2(0, 27)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -335,19 +338,19 @@ theme_override_font_sizes/font_size = 12
 text = "CPU: ↓"
 vertical_alignment = 1
 
-[node name="Graph" type="Panel" parent="VBoxContainer/CPUGraph"]
+[node name="Graph" type="Panel" parent="DebugMenu/VBoxContainer/CPUGraph"]
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ki0n8")
 
-[node name="GPUGraph" type="HBoxContainer" parent="VBoxContainer"]
+[node name="GPUGraph" type="HBoxContainer" parent="DebugMenu/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 alignment = 2
 
-[node name="Title" type="Label" parent="VBoxContainer/GPUGraph"]
+[node name="Title" type="Label" parent="DebugMenu/VBoxContainer/GPUGraph"]
 custom_minimum_size = Vector2(0, 27)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -357,14 +360,14 @@ theme_override_font_sizes/font_size = 12
 text = "GPU: ↓"
 vertical_alignment = 1
 
-[node name="Graph" type="Panel" parent="VBoxContainer/GPUGraph"]
+[node name="Graph" type="Panel" parent="DebugMenu/VBoxContainer/GPUGraph"]
 custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ki0n8")
 
-[node name="Information" type="Label" parent="VBoxContainer"]
+[node name="Information" type="Label" parent="DebugMenu/VBoxContainer"]
 modulate = Color(1, 1, 1, 0.752941)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -375,7 +378,7 @@ Windows 12 64-bit (double precision), Vulkan 1.2.34
 NVIDIA GeForce RTX 1234, 123.45.67"
 horizontal_alignment = 2
 
-[node name="Settings" type="Label" parent="VBoxContainer"]
+[node name="Settings" type="Label" parent="DebugMenu/VBoxContainer"]
 modulate = Color(0.8, 0.84, 1, 0.752941)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -395,4 +398,4 @@ Volumetric Fog: On
 2D Antialiasing: 2× MSAA"
 horizontal_alignment = 2
 
-[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="DebugMenu" to="DebugMenu" method="_on_visibility_changed"]

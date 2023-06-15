@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix debug menu appearing behind 2D elements in the scene, or appearing offset
+  when using a Camera2D.
+  - This required changing the node structure by making them children of a
+    CanvasLayer, so you may have to edit scripts if you're modifying the debug
+    menu nodes' from a script.
+
 ## [1.1.0] - 2023-05-26
 
 ### Added
