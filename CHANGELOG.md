@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix error spam when the add-on starts due to the thread safety checks added in Godot 4.1.
+
 ## [1.1.1] - 2023-06-15
 
 ### Fixed
