@@ -117,21 +117,15 @@ func _ready() -> void:
 	# in case the user toggles the full debug menu just after starting the project.
 	information.text = "Loading hardware information...\n\n "
 	settings.text = "Loading project information..."
+	
+	var viewport_rid_for_thread := get_viewport().get_viewport_rid()
 	thread.start(
 		func():
-			# Disable thread safety checks as they interfere with this add-on.
-			# This only affects this particular thread, not other thread instances in the project.
-			# See <https://github.com/godotengine/godot/pull/78000> for details.
-			# Use a Callable so that this can be ignored on Godot 4.0 without causing a script error
-			# (thread safety checks were added in Godot 4.1).
-			if Engine.get_version_info()["hex"] >= 0x040100:
-				Callable(Thread, "set_thread_safety_checks_enabled").call(false)
-
 			# Enable required time measurements to display CPU/GPU frame time information.
 			# These lines are time-consuming operations, so run them in a separate thread.
-			RenderingServer.viewport_set_measure_render_time(get_viewport().get_viewport_rid(), true)
-			update_information_label()
-			update_settings_label()
+			RenderingServer.viewport_set_measure_render_time(viewport_rid_for_thread, true)
+			call_deferred("update_information_label")
+			call_deferred("update_settings_label")
 	)
 
 func _input(event: InputEvent) -> void:
