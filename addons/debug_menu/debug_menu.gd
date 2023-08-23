@@ -134,6 +134,7 @@ func _ready() -> void:
 			update_settings_label()
 	)
 
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("cycle_debug_menu"):
 		style = wrapi(style + 1, 0, Style.MAX) as Style
@@ -185,7 +186,6 @@ func update_settings_label() -> void:
 		if viewport.screen_space_aa == Viewport.SCREEN_SPACE_AA_FXAA:
 			antialiasing_3d_string += (" + " if not antialiasing_3d_string.is_empty() else "") + "FXAA"
 
-		var environment := viewport.get_camera_3d().get_world_3d().environment
 		settings.text += "3D scale (%s): %d%% = %d×%d" % [
 				"Bilinear" if viewport.scaling_3d_mode == Viewport.SCALING_3D_MODE_BILINEAR else "FSR 1.0",
 				viewport.scaling_3d_scale * 100,
@@ -195,23 +195,25 @@ func update_settings_label() -> void:
 
 		if not antialiasing_3d_string.is_empty():
 			settings.text += "\n3D Antialiasing: %s" % antialiasing_3d_string
+		
+		var environment := viewport.get_camera_3d().get_world_3d().environment
+		if environment:
+			if environment.ssr_enabled:
+				settings.text += "\nSSR: %d Steps" % environment.ssr_max_steps
 
-		if environment.ssr_enabled:
-			settings.text += "\nSSR: %d Steps" % environment.ssr_max_steps
+			if environment.ssao_enabled:
+				settings.text += "\nSSAO: On"
+			if environment.ssil_enabled:
+				settings.text += "\nSSIL: On"
 
-		if environment.ssao_enabled:
-			settings.text += "\nSSAO: On"
-		if environment.ssil_enabled:
-			settings.text += "\nSSIL: On"
+			if environment.sdfgi_enabled:
+				settings.text += "\nSDFGI: %d Cascades" % environment.sdfgi_cascades
 
-		if environment.sdfgi_enabled:
-			settings.text += "\nSDFGI: %d Cascades" % environment.sdfgi_cascades
+			if environment.glow_enabled:
+				settings.text += "\nGlow: On"
 
-		if environment.glow_enabled:
-			settings.text += "\nGlow: On"
-
-		if environment.volumetric_fog_enabled:
-			settings.text += "\nVolumetric Fog: On"
+			if environment.volumetric_fog_enabled:
+				settings.text += "\nVolumetric Fog: On"
 	var antialiasing_2d_string := ""
 	if viewport.msaa_2d >= Viewport.MSAA_2X:
 		antialiasing_2d_string = "%d× MSAA" % pow(2, viewport.msaa_2d)
