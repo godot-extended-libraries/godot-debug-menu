@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.2] - 2023-08-23
+
 ### Fixed
 
+- [Fix error when running a scene without an Environment resource.](https://github.com/godot-extended-libraries/godot-debug-menu/pull/14)
 - Fix error spam when the add-on starts due to the thread safety checks added in Godot 4.1.
 
 ## [1.1.1] - 2023-06-15
@@ -44,7 +47,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial versioned release.
 
-[Unreleased]: https://github.com/godot-extended-libraries/godot-debug-menu/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/godot-extended-libraries/godot-debug-menu/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/godot-extended-libraries/godot-debug-menu/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/godot-extended-libraries/godot-debug-menu/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/godot-extended-libraries/godot-debug-menu/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/godot-extended-libraries/godot-debug-menu/compare/v1.0.0...v1.0.1
