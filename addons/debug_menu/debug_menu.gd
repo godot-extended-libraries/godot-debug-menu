@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 
 @export var fps: Label
 @export var frame_time: Label
@@ -50,11 +50,11 @@ var style := Style.HIDDEN:
 			Style.VISIBLE_COMPACT, Style.VISIBLE_DETAILED:
 				visible = true
 				frame_number.visible = style == Style.VISIBLE_DETAILED
-				$VBoxContainer/FrameTimeHistory.visible = style == Style.VISIBLE_DETAILED
-				$VBoxContainer/FPSGraph.visible = style == Style.VISIBLE_DETAILED
-				$VBoxContainer/TotalGraph.visible = style == Style.VISIBLE_DETAILED
-				$VBoxContainer/CPUGraph.visible = style == Style.VISIBLE_DETAILED
-				$VBoxContainer/GPUGraph.visible = style == Style.VISIBLE_DETAILED
+				$DebugMenu/VBoxContainer/FrameTimeHistory.visible = style == Style.VISIBLE_DETAILED
+				$DebugMenu/VBoxContainer/FPSGraph.visible = style == Style.VISIBLE_DETAILED
+				$DebugMenu/VBoxContainer/TotalGraph.visible = style == Style.VISIBLE_DETAILED
+				$DebugMenu/VBoxContainer/CPUGraph.visible = style == Style.VISIBLE_DETAILED
+				$DebugMenu/VBoxContainer/GPUGraph.visible = style == Style.VISIBLE_DETAILED
 				information.visible = style == Style.VISIBLE_DETAILED
 				settings.visible = style == Style.VISIBLE_DETAILED
 
