@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2023-12-15
+
+### Added
+
+- Support for indicating the use of FSR2 upscaling and antialiasing.
+- Support for indicating Direct3D 12, Metal and custom rendering drivers (will be displayed as-is).
+- Support for indicating ANGLE as rendering driver on Windows/macOS and OpenGL ES on Linux.
+
+### Changed
+
+- Vulkan on macOS and iOS is now displayed as "Vulkan via MoltenVK", since these platforms don't natively support Vulkan.
+
+### Fixed
+
+- TAA is no longer marked as enabled if FSR2 scaling mode is used, as FSR2 includes its own temporal antialiasing implementation.
+- [Fixed not being able to set `DebugMenu.style`.](https://github.com/godot-extended-libraries/godot-debug-menu/pull/16)
+
 ## [1.1.2] - 2023-08-23
 
 ### Fixed
@@ -47,7 +64,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial versioned release.
 
-[Unreleased]: https://github.com/godot-extended-libraries/godot-debug-menu/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/godot-extended-libraries/godot-debug-menu/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/godot-extended-libraries/godot-debug-menu/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/godot-extended-libraries/godot-debug-menu/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/godot-extended-libraries/godot-debug-menu/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/godot-extended-libraries/godot-debug-menu/compare/v1.0.1...v1.1.0
