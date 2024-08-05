@@ -20,4 +20,3 @@ func _exit_tree() -> void:
 	remove_autoload_singleton("DebugMenu")
 	# Don't remove the project setting's value and input map action,
 	# as the plugin may be re-enabled in the future.
-
