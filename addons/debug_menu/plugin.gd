@@ -6,7 +6,7 @@ func _enter_tree() -> void:
 
 	if not ProjectSettings.has_setting("application/config/version") or ProjectSettings.get_setting("application/config/version") == "":
 		ProjectSettings.set_setting("application/config/version", "1.0.0")
-		print("Setting 'application/config/version' was missing or empty and has been set to '1.0.0'.")
+		print("Debug Menu: Setting 'application/config/version' was missing or empty and has been set to '1.0.0'.")
 
 	ProjectSettings.add_property_info({
 		name = "application/config/version",
