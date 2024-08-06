@@ -2,7 +2,8 @@
 extends EditorPlugin
 
 func _enter_tree() -> void:
-	add_autoload_singleton("DebugMenu", "res://addons/debug_menu/debug_menu.tscn")
+	if not ProjectSettings.has_setting("autoload/DebugMenu"):
+		add_autoload_singleton("DebugMenu", "res://addons/debug_menu/debug_menu.tscn")
 
 	if not ProjectSettings.has_setting("application/config/version") or ProjectSettings.get_setting("application/config/version") == "":
 		ProjectSettings.set_setting("application/config/version", "1.0.0")
