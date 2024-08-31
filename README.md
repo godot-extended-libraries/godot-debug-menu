@@ -139,7 +139,7 @@ create it in the Project Settings if you wish to override the key.
 
 To toggle the debug menu from code, use:
 
-- `DebugMenu.style = DebugMenu.Style.NONE` to hide the debug menu.
+- `DebugMenu.style = DebugMenu.Style.HIDDEN` to hide the debug menu.
 - `DebugMenu.style = DebugMenu.Style.VISIBLE_COMPACT` to show the compact debug menu.
 - `DebugMenu.style = DebugMenu.Style.VISIBLE_DETAILED` to show the detailed debug menu.
 
