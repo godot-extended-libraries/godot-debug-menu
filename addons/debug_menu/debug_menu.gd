@@ -141,7 +141,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _exit_tree() -> void:
-	thread.wait_to_finish()
+	if thread.is_started():
+		thread.wait_to_finish()
 
 
 ## Update hardware information label (this can change at runtime based on window
