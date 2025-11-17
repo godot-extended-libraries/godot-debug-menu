@@ -106,10 +106,10 @@ func _ready() -> void:
 	# (red = 10 FPS, yellow = 60 FPS, green = 110 FPS, cyan = 160 FPS).
 	# This makes the color gradient non-linear.
 	# Colors are taken from <https://tailwindcolor.com/>.
-	frame_time_gradient.set_color(0, Color8(239, 68, 68))   # red-500
-	frame_time_gradient.set_color(1, Color8(56, 189, 248))  # light-blue-400
-	frame_time_gradient.add_point(0.3333, Color8(250, 204, 21))  # yellow-400
-	frame_time_gradient.add_point(0.6667, Color8(128, 226, 95))  # 50-50 mix of lime-400 and green-400
+	frame_time_gradient.set_color(0, Color.from_rgba8(239, 68, 68))   # red-500
+	frame_time_gradient.set_color(1, Color.from_rgba8(56, 189, 248))  # light-blue-400
+	frame_time_gradient.add_point(0.3333, Color.from_rgba8(250, 204, 21))  # yellow-400
+	frame_time_gradient.add_point(0.6667, Color.from_rgba8(128, 226, 95))  # 50-50 mix of lime-400 and green-400
 
 	get_viewport().size_changed.connect(update_settings_label)
 
