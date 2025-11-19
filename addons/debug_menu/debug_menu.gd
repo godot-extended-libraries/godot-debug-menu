@@ -58,6 +58,32 @@ var style := Style.HIDDEN:
 				information.visible = style == Style.VISIBLE_DETAILED
 				settings.visible = style == Style.VISIBLE_DETAILED
 
+## Debug menu display size.
+enum Size {
+	SMALL,
+	DEFAULT,
+	LARGE,
+	EXTRA_LARGE,
+	MAX,  ## Represents the size of the Size enum.
+}
+## The size to use when drawing the debug menu.
+var menu_size := Size.DEFAULT:
+	set(value):
+		menu_size = value
+		match menu_size:
+			Size.SMALL:
+				$DebugMenu.scale = Vector2(0.75,0.75)
+				offset = Vector2(100,0)
+			Size.DEFAULT:
+				$DebugMenu.scale = Vector2(1,1)
+				offset = Vector2(0,0)
+			Size.LARGE:
+				$DebugMenu.scale = Vector2(1.5,1.5)
+				offset = Vector2(-200,0)
+			Size.EXTRA_LARGE:
+				$DebugMenu.scale = Vector2(2,2)
+				offset = Vector2(-400,0)
+		
 # Value of `Time.get_ticks_usec()` on the previous frame.
 var last_tick := 0
 
@@ -90,6 +116,13 @@ func _init() -> void:
 		event.keycode = KEY_F3
 		InputMap.action_add_event("cycle_debug_menu", event)
 
+	if not InputMap.has_action("cycle_debug_menu_size"):
+		# Create default input action if no user-defined override exists.
+		# We can't do it in the editor plugin's activation code as it doesn't seem to work there.
+		InputMap.add_action("cycle_debug_menu_size")
+		var event := InputEventKey.new()
+		event.keycode = KEY_F4
+		InputMap.action_add_event("cycle_debug_menu_size", event)
 
 func _ready() -> void:
 	fps_graph.draw.connect(_fps_graph_draw)
@@ -138,6 +171,8 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("cycle_debug_menu"):
 		style = wrapi(style + 1, 0, Style.MAX) as Style
+	if event.is_action_pressed("cycle_debug_menu_size"):
+		menu_size = wrapi(menu_size + 1, 0, Size.MAX) as Size
 
 
 func _exit_tree() -> void:
