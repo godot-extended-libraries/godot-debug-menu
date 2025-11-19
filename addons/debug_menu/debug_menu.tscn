@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cggqb75a8w8r"]
 
-[ext_resource type="Script" path="res://addons/debug_menu/debug_menu.gd" id="1_p440y"]
+[ext_resource type="Script" uid="uid://cjifa1oa5wtn4" path="res://addons/debug_menu/debug_menu.gd" id="1_p440y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ki0n8"]
 bg_color = Color(0, 0, 0, 0.25098)
@@ -61,8 +61,8 @@ theme_override_constants/separation = 0
 modulate = Color(0, 1, 0, 1)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 5
 theme_override_constants/line_spacing = 0
+theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 18
 text = "60 FPS"
 horizontal_alignment = 2
@@ -292,7 +292,7 @@ size_flags_horizontal = 8
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
-text = "FPS: ↑"
+text = "FPS: "
 vertical_alignment = 1
 
 [node name="Graph" type="Panel" parent="DebugMenu/VBoxContainer/FPSGraph"]
@@ -314,7 +314,7 @@ size_flags_horizontal = 8
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
-text = "Total: ↓"
+text = "Total: "
 vertical_alignment = 1
 
 [node name="Graph" type="Panel" parent="DebugMenu/VBoxContainer/TotalGraph"]
@@ -336,7 +336,7 @@ size_flags_horizontal = 8
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
-text = "CPU: ↓"
+text = "CPU: "
 vertical_alignment = 1
 
 [node name="Graph" type="Panel" parent="DebugMenu/VBoxContainer/CPUGraph"]
@@ -358,7 +358,7 @@ size_flags_horizontal = 8
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
-text = "GPU: ↓"
+text = "GPU: "
 vertical_alignment = 1
 
 [node name="Graph" type="Panel" parent="DebugMenu/VBoxContainer/GPUGraph"]
