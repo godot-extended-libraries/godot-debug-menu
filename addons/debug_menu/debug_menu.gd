@@ -26,8 +26,13 @@ extends CanvasLayer
 ## Currently, this also affects how FPS is measured.
 const HISTORY_NUM_FRAMES = 150
 
-var GRAPH_SIZE = Vector2(150, 25)
+var GRAPH_SIZE = Vector2(150, 25) # kept uppercase for less code change
 const DEFAULT_GRAPH_SIZE = Vector2(150, 25)
+
+const DEFAULT_FONT_SIZE = 12.0
+const MAX_FONT_SIZE = 72.0
+const DEFAULT_FONT_OUTLINE_SIZE = 3.0
+const DEFAULT_HEADER_WIDTH = 50.0
 
 const GRAPH_MIN_FPS = 10
 const GRAPH_MAX_FPS = 160
@@ -60,68 +65,44 @@ var style := Style.HIDDEN:
 				information.visible = style == Style.VISIBLE_DETAILED
 				settings.visible = style == Style.VISIBLE_DETAILED
 
-var _custom_font_size: int = 28
+var _custom_font_size: int = DEFAULT_FONT_SIZE * 3 # 3x
 
 ## Debug menu display size.
-enum Size {
-	CUSTOM,
-	DEFAULT_12,
-	LARGE_16,
-	LARGER_20,
-	LARGEST_24,
-	MAX,  ## Represents the size of the Size enum.
+enum Display_Size {
+	SIZE_12_DEFAULT, ## 1.0x, the default display size
+	SIZE_18, ## 1.5x the default scale
+	SIZE_24, ## 2.0x the default scale
+	SIZE_30, ## 2.5x the default scale
+	SIZE_CUSTOM, ## Initially 3.0x the default scale, but overwritten with set_font_size()
+	MAX,  ## Represents the size of the Display_Size enum.
 }
 
 ## The size to use when drawing the debug menu.
-var menu_size := Size.DEFAULT_12:
+var display_size := Display_Size.SIZE_12_DEFAULT:
 	set(value):
-		menu_size = value
-		match menu_size:
-			Size.DEFAULT_12:
-				_resize_overlay(12, 3, 50)
-			Size.LARGE_16:
-				_resize_overlay(16, 4, 66.666)
-			Size.LARGER_20:
-				_resize_overlay(20, 5, 83.333)
-			Size.LARGEST_24:
-				_resize_overlay(24, 6, 100)
-			Size.CUSTOM:
-				var new_scale: float = _custom_font_size / 12.0
-				_resize_overlay(12 * new_scale, 3 * new_scale, 50 * new_scale)
-
-func set_font_size(font_size: int):
-	if font_size < 12 or font_size > 72:
-		printerr("Font size range for DebugMenu is [12, 72]")
-		return
-
-	_custom_font_size = font_size
-	menu_size = Size.CUSTOM # this triggers the set, where resize_overlay takes place
-
-func _resize_overlay(font_size: int, outline_size: int, header_width: float):
-	# change font size and outline for all labels
-	for l in get_tree().get_nodes_in_group("debug_menu_label"):
-		var label : Label = l as Label
-		label.add_theme_font_size_override("font_size", font_size)
-		label.add_theme_constant_override("outline_size", outline_size)
-
-	# change header widths
-	for l in get_tree().get_nodes_in_group("debug_menu_header"):
-		var label : Label = l as Label
-		label.custom_minimum_size.x = header_width
-		
-	# main FPS label size is 50% bigger
-	fps.add_theme_font_size_override("font_size", font_size*1.5)
-	fps.add_theme_constant_override("outline_size", outline_size*1.5)
-	
-	# graph re-size
-	var new_scale: float = font_size / 12.0
-	GRAPH_SIZE = DEFAULT_GRAPH_SIZE * new_scale
-	for p in get_tree().get_nodes_in_group("debug_menu_graph"):
-		var panel: Panel = p as Panel
-		panel.custom_minimum_size = GRAPH_SIZE
-		# this ajusts the label on the left's Y minimum size, so that the graphs are spaced
-		panel.get_parent().find_child("Title").custom_minimum_size.y = GRAPH_SIZE.y + (2 * new_scale)
-		
+		display_size = value
+		match display_size:
+			Display_Size.SIZE_12_DEFAULT: # 1.0x
+				_resize_overlay(DEFAULT_FONT_SIZE, 
+				DEFAULT_FONT_OUTLINE_SIZE, 
+				DEFAULT_HEADER_WIDTH)
+			Display_Size.SIZE_18: # 1.5x
+				_resize_overlay(DEFAULT_FONT_SIZE * 1.5,
+				 DEFAULT_FONT_OUTLINE_SIZE * 1.5,
+				 DEFAULT_HEADER_WIDTH * 1.5)
+			Display_Size.SIZE_24: # 2.0x
+				_resize_overlay(DEFAULT_FONT_SIZE * 2.0,
+				 DEFAULT_FONT_OUTLINE_SIZE * 2.0,
+				 DEFAULT_HEADER_WIDTH * 2.0)
+			Display_Size.SIZE_30: # 2.5x
+				_resize_overlay(DEFAULT_FONT_SIZE * 2.5,
+				 DEFAULT_FONT_OUTLINE_SIZE * 2.5,
+				 DEFAULT_HEADER_WIDTH * 2.5)
+			Display_Size.SIZE_CUSTOM: # initially is 3.0x, replaced when set_font_size() is called
+				var new_scale: float = float(_custom_font_size / DEFAULT_FONT_SIZE)
+				_resize_overlay(DEFAULT_FONT_SIZE * new_scale, 
+				DEFAULT_FONT_OUTLINE_SIZE * new_scale, 
+				DEFAULT_HEADER_WIDTH * new_scale)
 
 # Value of `Time.get_ticks_usec()` on the previous frame.
 var last_tick := 0
@@ -210,9 +191,51 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("cycle_debug_menu"):
 		style = wrapi(style + 1, 0, Style.MAX) as Style
-	if event.is_action_pressed("cycle_debug_menu_size"):
-		menu_size = wrapi(menu_size + 1, 0, Size.MAX) as Size
 
+	# Only cycle size/scale when DebugMenu is visible
+	if event.is_action_pressed("cycle_debug_menu_size") and not style == Style.HIDDEN:
+		display_size = wrapi(display_size + 1, 0, Display_Size.MAX) as Display_Size
+
+#region Scaling functions by Antz
+
+func _resize_overlay(font_size_in: int, outline_size: int, header_width: float):
+	# change font size and outline for all labels
+	for l in get_tree().get_nodes_in_group("debug_menu_label"):
+		var label : Label = l as Label
+		label.add_theme_font_size_override("font_size", font_size_in)
+		label.add_theme_constant_override("outline_size", outline_size)
+
+	# change header widths
+	for l in get_tree().get_nodes_in_group("debug_menu_header"):
+		var label : Label = l as Label
+		label.custom_minimum_size.x = header_width
+		
+	# main FPS label size is 50% bigger
+	fps.add_theme_font_size_override("font_size", font_size_in*1.5)
+	fps.add_theme_constant_override("outline_size", outline_size*1.5)
+	
+	# graph re-size
+	var new_scale: float = font_size_in / DEFAULT_FONT_SIZE
+	GRAPH_SIZE = DEFAULT_GRAPH_SIZE * new_scale
+	for p in get_tree().get_nodes_in_group("debug_menu_graph"):
+		var panel: Panel = p as Panel
+		panel.custom_minimum_size = GRAPH_SIZE
+		# this adjusts the label on the left Y minimum size, so that the graphs are spaced
+		panel.get_parent().find_child("Title").custom_minimum_size.y = GRAPH_SIZE.y + (2.0 * new_scale)
+
+## Set the font size of the Debug Menu overlay
+## Minimum size is 12, max size is MAX_FONT_SIZE
+## Sets display_size to Display_Size.SIZE_CUSTOM
+## recalculates all GUI elements
+func set_font_size(font_size_in: int):
+	if font_size_in < DEFAULT_FONT_SIZE or font_size_in > MAX_FONT_SIZE:
+		printerr(str("Font size range for DebugMenu is [", DEFAULT_FONT_SIZE," to ", MAX_FONT_SIZE ,"]"))
+		return
+
+	_custom_font_size = font_size_in
+	display_size = Display_Size.SIZE_CUSTOM # this triggers the set, where resize_overlay takes place
+
+#endregion Scaling functions
 
 func _exit_tree() -> void:
 	if thread.is_started():
