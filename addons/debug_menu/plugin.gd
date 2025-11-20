@@ -16,7 +16,10 @@ func _enter_tree() -> void:
 
 	ProjectSettings.save()
 	
+	
 	# Add new Project Setting for font size
+	if not ProjectSettings.has_setting("DebugMenu/font_size"):
+		ProjectSettings.set_setting("DebugMenu/font_size", 2)
 	var property_info = {
 		"name": "DebugMenu/font_size",
 		"type": TYPE_INT,
@@ -25,7 +28,7 @@ func _enter_tree() -> void:
 	}
 	ProjectSettings.add_property_info(property_info)
 	ProjectSettings.set_initial_value("DebugMenu/font_size", 2) # 2 = 12px font size in enum
-
+	ProjectSettings.save()
 
 func _exit_tree() -> void:
 	remove_autoload_singleton("DebugMenu")
