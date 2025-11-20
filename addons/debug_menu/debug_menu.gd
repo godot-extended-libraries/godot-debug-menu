@@ -26,7 +26,9 @@ extends CanvasLayer
 ## Currently, this also affects how FPS is measured.
 const HISTORY_NUM_FRAMES = 150
 
-const GRAPH_SIZE = Vector2(150, 25)
+var GRAPH_SIZE = Vector2(150, 25)
+const DEFAULT_GRAPH_SIZE = Vector2(150, 25)
+
 const GRAPH_MIN_FPS = 10
 const GRAPH_MAX_FPS = 160
 const GRAPH_MIN_FRAMETIME = 1.0 / GRAPH_MIN_FPS
@@ -84,8 +86,8 @@ var menu_size := Size.DEFAULT_12:
 			Size.LARGEST_24:
 				_resize_overlay(24, 6, 100)
 			Size.CUSTOM:
-				var scale: float = _custom_font_size / 12.0
-				_resize_overlay(12 * scale, 3 * scale, 50 * scale)
+				var new_scale: float = _custom_font_size / 12.0
+				_resize_overlay(12 * new_scale, 3 * new_scale, 50 * new_scale)
 
 func set_font_size(font_size: int):
 	if font_size < 12 or font_size > 72:
@@ -93,23 +95,33 @@ func set_font_size(font_size: int):
 		return
 
 	_custom_font_size = font_size
-	menu_size = Size.CUSTOM
+	menu_size = Size.CUSTOM # this triggers the set, where resize_overlay takes place
 
 func _resize_overlay(font_size: int, outline_size: int, header_width: float):
-	# change font size of all labels
+	# change font size and outline for all labels
 	for l in get_tree().get_nodes_in_group("debug_menu_label"):
-		var label = l as Label
+		var label : Label = l as Label
 		label.add_theme_font_size_override("font_size", font_size)
 		label.add_theme_constant_override("outline_size", outline_size)
 
 	# change header widths
 	for l in get_tree().get_nodes_in_group("debug_menu_header"):
-		var label = l as Label
+		var label : Label = l as Label
 		label.custom_minimum_size.x = header_width
 		
 	# main FPS label size is 50% bigger
 	fps.add_theme_font_size_override("font_size", font_size*1.5)
 	fps.add_theme_constant_override("outline_size", outline_size*1.5)
+	
+	# graph re-size
+	var new_scale: float = font_size / 12.0
+	GRAPH_SIZE = DEFAULT_GRAPH_SIZE * new_scale
+	for p in get_tree().get_nodes_in_group("debug_menu_graph"):
+		var panel: Panel = p as Panel
+		panel.custom_minimum_size = GRAPH_SIZE
+		# this ajusts the label on the left's Y minimum size, so that the graphs are spaced
+		panel.get_parent().find_child("Title").custom_minimum_size.y = GRAPH_SIZE.y + (2 * new_scale)
+		
 
 # Value of `Time.get_ticks_usec()` on the previous frame.
 var last_tick := 0
