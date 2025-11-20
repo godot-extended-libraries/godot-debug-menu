@@ -15,6 +15,16 @@ func _enter_tree() -> void:
 	})
 
 	ProjectSettings.save()
+	
+	# Add new Project Setting for font size
+	var property_info = {
+		"name": "DebugMenu/font_size",
+		"type": TYPE_INT,
+		"hint": PROPERTY_HINT_ENUM,
+		"hint_string": "3px font size,6px font size,12px font size (default),18px font size,24px font size,30px font size"
+	}
+	ProjectSettings.add_property_info(property_info)
+	ProjectSettings.set_initial_value("DebugMenu/font_size", 2) # 2 = 12px font size in enum
 
 
 func _exit_tree() -> void:

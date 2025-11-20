@@ -156,6 +156,11 @@ func _init() -> void:
 		InputMap.action_add_event("cycle_debug_menu_size", event)
 
 func _ready() -> void:
+	if ProjectSettings.has_setting("DebugMenu/font_size"):
+		display_size = ProjectSettings.get_setting("DebugMenu/font_size")
+	else:
+		print_rich("[color=yellow]Warning[/color]: Could not find DebugMenu's project setting: [color=purple]DebugMenu/font_size[/color]")
+		
 	fps_graph.draw.connect(_fps_graph_draw)
 	total_graph.draw.connect(_total_graph_draw)
 	cpu_graph.draw.connect(_cpu_graph_draw)
