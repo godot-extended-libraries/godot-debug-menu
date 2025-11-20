@@ -60,7 +60,6 @@ var style := Style.HIDDEN:
 
 ## Debug menu display size.
 enum Size {
-	SMALL,
 	DEFAULT,
 	LARGE,
 	EXTRA_LARGE,
@@ -71,19 +70,29 @@ var menu_size := Size.DEFAULT:
 	set(value):
 		menu_size = value
 		match menu_size:
-			Size.SMALL:
-				$DebugMenu.scale = Vector2(0.75,0.75)
-				offset = Vector2(100,0)
 			Size.DEFAULT:
-				$DebugMenu.scale = Vector2(1,1)
-				offset = Vector2(0,0)
+				_change_font_size_of_labels(12, 3, 50)
 			Size.LARGE:
-				$DebugMenu.scale = Vector2(1.5,1.5)
-				offset = Vector2(-200,0)
+				_change_font_size_of_labels(16, 4, 75)
 			Size.EXTRA_LARGE:
-				$DebugMenu.scale = Vector2(2,2)
-				offset = Vector2(-400,0)
+				_change_font_size_of_labels(24, 6, 90)
+
+func _change_font_size_of_labels(font_size: int, outline_size: int, header_width: int):
+	# change font size of all labels
+	for l in get_tree().get_nodes_in_group("debug_menu_label"):
+		var label = l as Label
+		label.add_theme_font_size_override("font_size", font_size)
+		label.add_theme_constant_override("outline_size", outline_size)
+
+	# change header widths
+	for l in get_tree().get_nodes_in_group("debug_menu_header"):
+		var label = l as Label
+		label.custom_minimum_size.x = header_width
 		
+	# main FPS label size is 50% bigger
+	fps.add_theme_font_size_override("font_size", font_size*1.5)
+	fps.add_theme_constant_override("outline_size", outline_size*1.5)
+
 # Value of `Time.get_ticks_usec()` on the previous frame.
 var last_tick := 0
 
