@@ -60,22 +60,25 @@ var style := Style.HIDDEN:
 
 ## Debug menu display size.
 enum Size {
-	DEFAULT,
-	LARGE,
-	EXTRA_LARGE,
+	DEFAULT_12,
+	LARGE_16,
+	LARGER_20,
+	LARGEST_24,
 	MAX,  ## Represents the size of the Size enum.
 }
 ## The size to use when drawing the debug menu.
-var menu_size := Size.DEFAULT:
+var menu_size := Size.DEFAULT_12:
 	set(value):
 		menu_size = value
 		match menu_size:
-			Size.DEFAULT:
+			Size.DEFAULT_12:
 				_change_font_size_of_labels(12, 3, 50)
-			Size.LARGE:
-				_change_font_size_of_labels(16, 4, 75)
-			Size.EXTRA_LARGE:
-				_change_font_size_of_labels(24, 6, 90)
+			Size.LARGE_16:
+				_change_font_size_of_labels(16, 4, 67)
+			Size.LARGER_20:
+				_change_font_size_of_labels(20, 5, 83)
+			Size.LARGEST_24:
+				_change_font_size_of_labels(24, 6, 100)
 
 func _change_font_size_of_labels(font_size: int, outline_size: int, header_width: int):
 	# change font size of all labels
