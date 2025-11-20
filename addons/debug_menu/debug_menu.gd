@@ -58,29 +58,44 @@ var style := Style.HIDDEN:
 				information.visible = style == Style.VISIBLE_DETAILED
 				settings.visible = style == Style.VISIBLE_DETAILED
 
+var _custom_font_size: int = 28
+
 ## Debug menu display size.
 enum Size {
+	CUSTOM,
 	DEFAULT_12,
 	LARGE_16,
 	LARGER_20,
 	LARGEST_24,
 	MAX,  ## Represents the size of the Size enum.
 }
+
 ## The size to use when drawing the debug menu.
 var menu_size := Size.DEFAULT_12:
 	set(value):
 		menu_size = value
 		match menu_size:
 			Size.DEFAULT_12:
-				_change_font_size_of_labels(12, 3, 50)
+				_resize_overlay(12, 3, 50)
 			Size.LARGE_16:
-				_change_font_size_of_labels(16, 4, 67)
+				_resize_overlay(16, 4, 66.666)
 			Size.LARGER_20:
-				_change_font_size_of_labels(20, 5, 83)
+				_resize_overlay(20, 5, 83.333)
 			Size.LARGEST_24:
-				_change_font_size_of_labels(24, 6, 100)
+				_resize_overlay(24, 6, 100)
+			Size.CUSTOM:
+				var scale: float = _custom_font_size / 12.0
+				_resize_overlay(12 * scale, 3 * scale, 50 * scale)
 
-func _change_font_size_of_labels(font_size: int, outline_size: int, header_width: int):
+func set_font_size(font_size: int):
+	if font_size < 12 or font_size > 72:
+		printerr("Font size range for DebugMenu is [12, 72]")
+		return
+
+	_custom_font_size = font_size
+	menu_size = Size.CUSTOM
+
+func _resize_overlay(font_size: int, outline_size: int, header_width: float):
 	# change font size of all labels
 	for l in get_tree().get_nodes_in_group("debug_menu_label"):
 		var label = l as Label
