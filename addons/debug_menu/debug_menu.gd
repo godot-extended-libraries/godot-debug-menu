@@ -30,6 +30,7 @@ var GRAPH_SIZE = Vector2(150, 25) # kept uppercase for less code change
 const DEFAULT_GRAPH_SIZE = Vector2(150, 25)
 
 const DEFAULT_FONT_SIZE = 12.0
+const MIN_FONT_SIZE = 3.0
 const MAX_FONT_SIZE = 72.0
 const DEFAULT_FONT_OUTLINE_SIZE = 3.0
 const DEFAULT_HEADER_WIDTH = 50.0
@@ -69,6 +70,8 @@ var _custom_font_size: int = DEFAULT_FONT_SIZE * 3 # 3x
 
 ## Debug menu display size.
 enum Display_Size {
+	SIZE_3, ## 0.25x the default scale
+	SIZE_6, ## 0.5x the default scale	
 	SIZE_12_DEFAULT, ## 1.0x, the default display size
 	SIZE_18, ## 1.5x the default scale
 	SIZE_24, ## 2.0x the default scale
@@ -82,6 +85,14 @@ var display_size := Display_Size.SIZE_12_DEFAULT:
 	set(value):
 		display_size = value
 		match display_size:
+			Display_Size.SIZE_3: # 0.25x
+				_resize_overlay(DEFAULT_FONT_SIZE * 0.25,
+				0, # no outline, makes small font look better
+				DEFAULT_HEADER_WIDTH* 0.25)
+			Display_Size.SIZE_6: # 0.5x
+				_resize_overlay(DEFAULT_FONT_SIZE* 0.5,
+				DEFAULT_FONT_OUTLINE_SIZE * 0.5, 
+				DEFAULT_HEADER_WIDTH* 0.5)
 			Display_Size.SIZE_12_DEFAULT: # 1.0x
 				_resize_overlay(DEFAULT_FONT_SIZE, 
 				DEFAULT_FONT_OUTLINE_SIZE, 
@@ -203,7 +214,11 @@ func _resize_overlay(font_size_in: int, outline_size: int, header_width: float):
 	for l in get_tree().get_nodes_in_group("debug_menu_label"):
 		var label : Label = l as Label
 		label.add_theme_font_size_override("font_size", font_size_in)
-		label.add_theme_constant_override("outline_size", outline_size)
+		# no outline for very small fonts sizes
+		if font_size_in < 6:
+			label.add_theme_constant_override("outline_size", 0)
+		else:
+			label.add_theme_constant_override("outline_size", outline_size)
 
 	# change header widths
 	for l in get_tree().get_nodes_in_group("debug_menu_header"):
@@ -212,10 +227,20 @@ func _resize_overlay(font_size_in: int, outline_size: int, header_width: float):
 		
 	# main FPS label size is 50% bigger
 	fps.add_theme_font_size_override("font_size", font_size_in*1.5)
-	fps.add_theme_constant_override("outline_size", outline_size*1.5)
 	
-	# graph re-size
+	# no outline for very small fonts sizes
+	if font_size_in < 6:
+		fps.add_theme_constant_override("outline_size", 0)
+	else:
+		fps.add_theme_constant_override("outline_size", outline_size*1.5)
+	
 	var new_scale: float = font_size_in / DEFAULT_FONT_SIZE
+	
+	# scale line spacing for multi line labels
+	settings.add_theme_constant_override("line_spacing", 3 * new_scale)
+	information.add_theme_constant_override("line_spacing", 3 * new_scale)
+		
+	# graph re-size
 	GRAPH_SIZE = DEFAULT_GRAPH_SIZE * new_scale
 	for p in get_tree().get_nodes_in_group("debug_menu_graph"):
 		var panel: Panel = p as Panel
@@ -228,8 +253,8 @@ func _resize_overlay(font_size_in: int, outline_size: int, header_width: float):
 ## Sets display_size to Display_Size.SIZE_CUSTOM
 ## recalculates all GUI elements
 func set_font_size(font_size_in: int):
-	if font_size_in < DEFAULT_FONT_SIZE or font_size_in > MAX_FONT_SIZE:
-		printerr(str("Font size range for DebugMenu is [", DEFAULT_FONT_SIZE," to ", MAX_FONT_SIZE ,"]"))
+	if font_size_in < MIN_FONT_SIZE or font_size_in > MAX_FONT_SIZE:
+		printerr(str("Font size range for DebugMenu is [", MIN_FONT_SIZE," to ", MAX_FONT_SIZE ,"]"))
 		return
 
 	_custom_font_size = font_size_in
