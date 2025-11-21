@@ -16,31 +16,18 @@ func _enter_tree() -> void:
 
 	ProjectSettings.save()
 	
-	
-	# Add new Project Setting for font_size
-	if not ProjectSettings.has_setting("DebugMenu/font_size"):
-		ProjectSettings.set_setting("DebugMenu/font_size", 2)
-	var property_info = {
-		"name": "DebugMenu/font_size",
-		"type": TYPE_INT,
-		"hint": PROPERTY_HINT_ENUM,
-		"hint_string": "3px font size,6px font size,12px font size (default),18px font size,24px font size,30px font size, CUSTOM - Use the custom font size"
-	}
-	ProjectSettings.add_property_info(property_info)
-	ProjectSettings.set_initial_value("DebugMenu/font_size", 2) # 2 = 12px font size in enum
-	ProjectSettings.save()
-
 	# Add new Project Setting for custom_font_size
 	if not ProjectSettings.has_setting("DebugMenu/custom_font_size"):
-		ProjectSettings.set_setting("DebugMenu/custom_font_size", 36)
-	var property_info2 = {
+		ProjectSettings.set_setting("DebugMenu/custom_font_size", 12)
+	
+	var property_info = {
 		"name": "DebugMenu/custom_font_size",
 		"type": TYPE_INT,
 		"hint": PROPERTY_HINT_RANGE,
 		"hint_string" : "3,72"
 	}
-	ProjectSettings.add_property_info(property_info2)
-	ProjectSettings.set_initial_value("DebugMenu/custom_font_size", 36)
+	ProjectSettings.add_property_info(property_info)
+	ProjectSettings.set_initial_value("DebugMenu/custom_font_size", 12)
 	ProjectSettings.save()
 
 

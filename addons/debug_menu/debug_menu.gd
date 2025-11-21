@@ -156,14 +156,8 @@ func _init() -> void:
 		InputMap.action_add_event("cycle_debug_menu_size", event)
 
 func _ready() -> void:
-	if ProjectSettings.has_setting("DebugMenu/font_size"):
-		if ProjectSettings.get_setting("DebugMenu/font_size") == Display_Size.SIZE_CUSTOM:
-			if ProjectSettings.has_setting("DebugMenu/custom_font_size"):
-				set_font_size(ProjectSettings.get_setting("DebugMenu/custom_font_size"))
-			else:
-				set_font_size(36)
-		else:
-			display_size = ProjectSettings.get_setting("DebugMenu/font_size")
+	if ProjectSettings.has_setting("DebugMenu/custom_font_size"):
+		set_font_size(ProjectSettings.get_setting("DebugMenu/custom_font_size"))
 
 	fps_graph.draw.connect(_fps_graph_draw)
 	total_graph.draw.connect(_total_graph_draw)
