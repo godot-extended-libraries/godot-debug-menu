@@ -16,7 +16,7 @@ func _enter_tree() -> void:
 
 	ProjectSettings.save()
 	
-	# Add new Project Setting for custom_font_size
+	# Add new Project Setting for font_size
 	if not ProjectSettings.has_setting("DebugMenu/font_size"):
 		ProjectSettings.set_setting("DebugMenu/font_size", 12)
 	

@@ -71,7 +71,7 @@ var _custom_font_size: int = DEFAULT_FONT_SIZE * 3 # 3x
 ## Debug menu display size.
 enum Display_Size {
 	SIZE_3, ## 0.25x the default scale
-	SIZE_6, ## 0.5x the default scale	
+	SIZE_6, ## 0.5x the default scale
 	SIZE_12_DEFAULT, ## 1.0x, the default display size
 	SIZE_18, ## 1.5x the default scale
 	SIZE_24, ## 2.0x the default scale
@@ -252,7 +252,6 @@ func _resize_overlay(font_size_in: int, outline_size: int, header_width: float):
 		panel.get_parent().find_child("Title").custom_minimum_size.y = GRAPH_SIZE.y + (2.0 * new_scale)
 
 ## Set the font size of the Debug Menu overlay
-## Minimum size is 12, max size is MAX_FONT_SIZE
 ## Sets display_size to Display_Size.SIZE_CUSTOM
 ## recalculates all GUI elements
 func set_font_size(font_size_in: int):
@@ -261,7 +260,7 @@ func set_font_size(font_size_in: int):
 		return
 
 	_custom_font_size = font_size_in
-	display_size = Display_Size.SIZE_CUSTOM # this triggers the set, where resize_overlay takes place
+	display_size = Display_Size.SIZE_CUSTOM # this triggers the set, where resize_overlay() takes place
 
 #endregion Scaling functions
 
