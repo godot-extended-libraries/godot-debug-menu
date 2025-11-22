@@ -156,6 +156,11 @@ func _init() -> void:
 		InputMap.action_add_event("cycle_debug_menu_size", event)
 
 func _ready() -> void:
+	# start visibility from project settings
+	if ProjectSettings.has_setting("DebugMenu/settings/startup_visibility"):
+		style = ProjectSettings.get_setting("DebugMenu/settings/startup_visibility")
+		
+	# font size from project settings
 	if ProjectSettings.has_setting("DebugMenu/settings/font_size"):
 		set_font_size(ProjectSettings.get_setting("DebugMenu/settings/font_size"))
 
